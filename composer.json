@@ -1,0 +1,29 @@
+{
+    "name": "xidanko/update-manager",
+    "description": "Update manager for laravel applications.",
+    "keywords": ["laravel", "update manger", "self update", "auto update"],
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "XiDanko\\UpdateManager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jalal Al-Mussawi",
+            "email": "xidanko07@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-zip": "*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "XiDanko\\UpdateManager\\UpdateManagerServiceProvider"
+            ]
+        }
+    }
+}
