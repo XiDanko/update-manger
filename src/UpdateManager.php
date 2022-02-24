@@ -52,18 +52,18 @@ class UpdateManager
 
     public function updateToLatestVersion()
     {
-        Event::dispatch(new UpdateStarted());
+        Event::dispatch(new UpdateStarted($this->getCurrentVersion(), $this->getLatestVersion()));
         $latestVersion = $this->getLatestVersion();
         $this->update($latestVersion);
-        Event::dispatch(new UpdateFinished());
+        Event::dispatch(new UpdateFinished($this->getCurrentVersion(), $this->getLatestVersion()));
     }
 
     public function upgrade()
     {
-        Event::dispatch(new UpgradeStarted());
+        Event::dispatch(new UpgradeStarted($this->getCurrentVersion(), $this->getNextUpgradeVersion()));
         $upgradeVersion = $this->getNextUpgradeVersion();
         $this->update($upgradeVersion);
-        Event::dispatch(new UpgradeFinished());
+        Event::dispatch(new UpgradeFinished($this->getCurrentVersion(), $this->getNextUpgradeVersion()));
     }
 
     private function update(string $version)

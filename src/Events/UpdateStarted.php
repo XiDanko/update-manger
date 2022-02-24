@@ -10,13 +10,11 @@ class UpdateStarted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public string $currentVersion, $newVersion;
+
+    public function __construct(string $currentVersion, string $newVersion)
     {
-        //
+        $this->currentVersion = $currentVersion;
+        $this->newVersion = $newVersion;
     }
 }
