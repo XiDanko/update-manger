@@ -20,9 +20,13 @@ class GithubRepository
 
     public function getReleases(): Collection
     {
-        $response = Http::withHeaders(['Authorization' => "token $this->token"])
-                          ->get("https://api.github.com/repos/$this->owner/$this->name/releases");
+        $response = Http::withToken($this->token)->get("https://api.github.com/repos/$this->owner/$this->name/releases");
         return $response->throw()->collect();
+    }
+
+    public function getLatestRelease(string $branch)
+    {
+        return $this->releases->firstWhere('target_commitish', $branch) ?? null;
     }
 
     public function getLatestVersion(string $branch)
@@ -33,7 +37,7 @@ class GithubRepository
     public function getZip(string $version): string
     {
         $zipLink = $this->releases->firstWhere('tag_name', $version)['zipball_url'] ?? null;
-        $response = Http::withHeaders(['Authorization' => "token $this->token"])->get($zipLink);
+        $response = Http::withToken($this->token)->get($zipLink);
         return $response->body();
     }
 }

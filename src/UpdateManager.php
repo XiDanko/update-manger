@@ -15,10 +15,12 @@ use XiDanko\UpdateManager\Events\UpgradeStarted;
 class UpdateManager
 {
     private GithubRepository $repository;
+    private string $currentBranch;
 
     public function __construct(GithubRepository $repository)
     {
         $this->repository = $repository;
+        $this->currentBranch = Str::of($this->getCurrentVersion())->after('v')->before('.')->append('.x')->toString();
     }
 
     public function getCurrentVersion()
@@ -28,8 +30,12 @@ class UpdateManager
 
     public function getLatestVersion()
     {
-        $currentBranch = Str::of($this->getCurrentVersion())->after('v')->before('.')->append('.x')->toString();
-        return $this->repository->getLatestVersion($currentBranch);
+        return $this->repository->getLatestVersion($this->currentBranch);
+    }
+
+    public function getLatestRelease()
+    {
+        return $this->repository->getLatestVersion($this->currentBranch);
     }
 
     public function isNewVersionAvailable(): bool
@@ -39,10 +45,10 @@ class UpdateManager
 
     public function getNextUpgradeVersion()
     {
-        $branch = Str::of($this->getCurrentVersion())->after('v')->before('.')->toString();
-        $branch = (int) $branch + 1;
-        $branch .= ".x";
-        return $this->repository->getLatestVersion($branch);
+        $nextBranch = Str::of($this->currentBranch)->before('.x')->toString();
+        $nextBranch = (int) $nextBranch + 1;
+        $nextBranch .= ".x";
+        return $this->repository->getLatestVersion($nextBranch);
     }
 
     public function isUpgradeAvailable()
