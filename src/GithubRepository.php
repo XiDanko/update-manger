@@ -15,6 +15,7 @@ class GithubRepository
         $this->owner = config('update-manager.repo_owner');
         $this->name = config('update-manager.repo_name');
         $this->token = config('update-manager.access_token');
+        $this->releases = collect([]);
     }
 
     public function getReleases(): Collection
