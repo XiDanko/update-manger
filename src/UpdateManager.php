@@ -35,7 +35,7 @@ class UpdateManager
 
     public function getLatestRelease()
     {
-        return $this->repository->getLatestVersion($this->currentBranch);
+        return $this->repository->getLatestRelease($this->currentBranch);
     }
 
     public function isNewVersionAvailable(): bool
