@@ -40,7 +40,7 @@ class GithubRepository
     public function getZip(string $version): string
     {
         $zipLink = $this->getReleases()->firstWhere('tag_name', $version)['zipball_url'] ?? null;
-        $response = Http::withToken($this->token)->get($zipLink);
+        $response = Http::withToken($this->token)->timeout(300)->get($zipLink);
         return $response->body();
     }
 }
